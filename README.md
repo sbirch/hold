@@ -11,7 +11,7 @@ function in addition to the return value.
 
 ### Documentation
 
-This module provides only one function, `hold`:
+This module has one important function, `hold`:
 
 ```
 hold(func, args=(), kwargs={}, v=1, name=None)
@@ -58,7 +58,7 @@ value = hold('someid', really_long_func, v=2)
 
 Typically you might use `hold` once the function you plan to cache has been
 substantially written. Loading cached data speeds up development of code
-which depends on earlier results (like matplotlib commands on the results
+which depends on earlier results (for example matplotlib charts on the results
 of a long-running simulation.)
 
 Older versions remain on disk &mdash; it can be useful to be able to load two seperate
@@ -69,6 +69,18 @@ which start with `.HELD` in the working directory.
 
 ### Caveats:
 
+* Currently the cache files are stored (and looked for) in the current working
+directory when the script is run. Running the script from a different directory
+will act like a fresh cache.
+
 * This is backed by cPickle, so only functions with pickleable return values and arguments can be held. In some cases storing and loading a pickle can be slower than the original computation.
 
 * On playback the `stdout` and `stderr` transcripts are both written to `stdout`.
+
+
+### etc.
+
+Run tests with `python setup.py test`.
+
+`hold` also includes `filename(name, args, kwargs, v)`, which will return the name
+of the cache file, and `Tee` which forks `stdout` to a `StringIO`.
